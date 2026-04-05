@@ -15,20 +15,71 @@
 ✔️ Modular & clean architecture  
 ✔️ Real-time UI updates  
 
+## 🚀 Core Functionalities
+
+### 🔐 Authentication System
+- Admin login with predefined credentials
+- Chef registration & login
+- Session stored using LocalStorage 💾
+- Role-based access (Admin / Chef)
+
 ---
 
-## 💡 Future Improvements
+### 👨‍🍳 Chef Features
 
-- 🌐 Backend integration (Node.js / Firebase)
-- 📱 Mobile responsiveness enhancement
-- ❤️ Like / Favorite feature
-- 📷 Image upload support
+🍽️ **Recipe Management**
+- Add new recipes (title, description, ingredients, steps, image)
+- Edit existing recipes
+- Delete own recipes
+
+🔍 **Search Functionality**
+- Search recipes by title in real-time
+
+⭐ **Ratings System**
+- Rate recipes (1–5)
+- One rating per chef per recipe
+- View average ratings
+
+💬 **Comments System**
+- Add comments to recipes
+- View other chefs’ feedback
+
+📂 **Recipe Filtering**
+- View "My Recipes"
+- View "Other Chefs' Recipes"
 
 ---
+
+### 📊 Admin Features
+
+⚙️ **Chef Management**
+- View all registered chefs
+- Delete chefs (removes all their recipes)
+
+🗑️ **Recipe Control**
+- Delete any recipe from the system
+
+---
+## 🛠️ Tech Stack
+
+- ⚡ Angular (Standalone Components)
+- 🎨 Bootstrap / CSS
+- 🧩 TypeScript
+- 💾 LocalStorage (Session Persistence)
+
+## 🔑 Admin Credentials
+- Username : admin
+- Password : admin123
+## ⚙️ Setup
+
+```bash
+npm install
+ng serve
+```
 
 ## 👨‍💻 Author
 
-**Daksh SPR**
+**Daksh**
 
 ---
 
@@ -37,7 +88,5 @@
 This project is licensed under the **MIT License** 📜
 
 ---
-
-## 🌟 Support
 
 If you like this project, don’t forget to ⭐ the repo and share it! 🚀🔥
