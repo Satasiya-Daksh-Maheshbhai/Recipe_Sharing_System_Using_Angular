@@ -1,0 +1,106 @@
+<section class="container fade-in">
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="panel-card p-4 mb-4">
+        <p class="text-uppercase small mb-1 subtle-text">Admin Control</p>
+        <h2 class="section-title mb-2">Overview</h2>
+        <p class="subtle-text mb-4">Monitor chefs and recipes across the system.</p>
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold">Total Chefs</span>
+            <span class="pill-tag">{{ chefs().length }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="fw-semibold">Total Recipes</span>
+            <span class="pill-tag">{{ recipes().length }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card p-4">
+        <h3 class="section-title mb-2">Admin Actions</h3>
+        <p class="subtle-text mb-0">
+          Remove chefs or recipes to keep the community curated and safe.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="panel-card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="section-title mb-0">Chefs</h3>
+          <span class="pill-tag">{{ chefs().length }} chefs</span>
+        </div>
+        @if (chefs().length === 0) {
+          <p class="subtle-text mb-0">No chefs registered yet.</p>
+        } @else {
+          <div class="table-responsive">
+            <table class="table table-clean align-middle">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Joined</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (chef of chefs(); track chef.id) {
+                  <tr>
+                    <td class="fw-semibold">{{ chef.name }}</td>
+                    <td>{{ chef.email }}</td>
+                    <td>{{ chef.createdAt | date: 'mediumDate' }}</td>
+                    <td class="text-end">
+                      <button class="btn btn-outline-danger btn-sm" (click)="deleteChef(chef.id)">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+
+      <div class="panel-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="section-title mb-0">Recipes</h3>
+          <span class="pill-tag">{{ recipes().length }} recipes</span>
+        </div>
+        @if (recipes().length === 0) {
+          <p class="subtle-text mb-0">No recipes published yet.</p>
+        } @else {
+          <div class="table-responsive">
+            <table class="table table-clean align-middle">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Chef</th>
+                  <th>Ratings</th>
+                  <th>Created</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (recipe of recipes(); track recipe.id) {
+                  <tr>
+                    <td class="fw-semibold">{{ recipe.title }}</td>
+                    <td>{{ recipe.chefName }}</td>
+                    <td>{{ recipe.ratings.length }}</td>
+                    <td>{{ recipe.createdAt | date: 'mediumDate' }}</td>
+                    <td class="text-end">
+                      <button class="btn btn-outline-danger btn-sm" (click)="deleteRecipe(recipe.id)">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

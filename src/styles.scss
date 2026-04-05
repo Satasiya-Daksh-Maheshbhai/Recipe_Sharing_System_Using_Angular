@@ -1,0 +1,183 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light;
+  --ink-950: #1a1c1d;
+  --ink-700: #3c4347;
+  --ink-500: #59626a;
+  --ink-200: #d7dde3;
+  --ink-100: #eef1f4;
+  --accent-500: #e56a2a;
+  --accent-600: #cb5a21;
+  --teal-500: #2f8c8f;
+  --gold-400: #f2b93b;
+  --paper-50: #fdfbf6;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: var(--ink-950);
+  background: radial-gradient(circle at top, #fef5e6, #f7efe5 40%, #eef3f4 75%, #e7edf2 100%);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+  background: rgba(253, 251, 246, 0.85);
+  border-bottom: 1px solid rgba(26, 28, 29, 0.08);
+}
+
+.brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.hero-card {
+  border: none;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 25px 60px rgba(20, 20, 20, 0.12);
+}
+
+.panel-card {
+  border: 1px solid rgba(26, 28, 29, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 45px rgba(24, 33, 40, 0.08);
+}
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.subtle-text {
+  color: var(--ink-500);
+}
+
+.pill-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(47, 140, 143, 0.12);
+  color: var(--teal-500);
+}
+
+.btn-accent {
+  background: var(--accent-500);
+  border-color: var(--accent-500);
+  color: #fff;
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+  background: var(--accent-600);
+  border-color: var(--accent-600);
+  color: #fff;
+}
+
+.recipe-card {
+  border-radius: 20px;
+  border: 1px solid rgba(26, 28, 29, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 40px rgba(24, 33, 40, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent-500), var(--gold-400), var(--teal-500));
+}
+
+.recipe-meta {
+  color: var(--ink-500);
+  font-size: 0.9rem;
+}
+
+.rating-badge {
+  background: rgba(242, 185, 59, 0.18);
+  color: #8a5b00;
+  font-weight: 600;
+}
+
+.comment-box {
+  background: var(--paper-50);
+  border-radius: 14px;
+  border: 1px solid rgba(26, 28, 29, 0.08);
+}
+
+.recipe-card img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+  border-color: rgba(26, 28, 29, 0.15);
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(229, 106, 42, 0.15);
+  border-color: rgba(229, 106, 42, 0.4);
+}
+
+.table-clean thead {
+  background: rgba(26, 28, 29, 0.04);
+}
+
+.table-clean th {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-500);
+}
+
+.table-clean td,
+.table-clean th {
+  vertical-align: middle;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

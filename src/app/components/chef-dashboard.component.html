@@ -1,0 +1,323 @@
+﻿<section class="container fade-in">
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="panel-card p-4">
+        <p class="text-uppercase small mb-1 subtle-text">Chef Hub</p>
+        <h2 class="section-title mb-2">Welcome, {{ auth.currentChefName() }}</h2>
+        <p class="subtle-text mb-3">
+          Share your latest creation and explore what other chefs are cooking.
+        </p>
+
+        @if (message) {
+          <div class="alert alert-info py-2 small" role="alert">
+            {{ message }}
+          </div>
+        }
+
+        <form class="d-flex flex-column gap-3" (ngSubmit)="addRecipe()">
+          <div>
+            <label class="form-label fw-semibold">Recipe Title</label>
+            <input
+              class="form-control"
+              type="text"
+              required
+              [(ngModel)]="newRecipe.title"
+              name="title"
+              placeholder="Spiced lentil stew"
+            />
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Short Description</label>
+            <input
+              class="form-control"
+              type="text"
+              required
+              [(ngModel)]="newRecipe.description"
+              name="description"
+              placeholder="Warm, hearty, and aromatic."
+            />
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Ingredients</label>
+            <textarea
+              class="form-control"
+              rows="4"
+              required
+              [(ngModel)]="newRecipe.ingredients"
+              name="ingredients"
+              placeholder="List each ingredient on a new line"
+            ></textarea>
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Steps</label>
+            <textarea
+              class="form-control"
+              rows="4"
+              required
+              [(ngModel)]="newRecipe.steps"
+              name="steps"
+              placeholder="Explain each step clearly"
+            ></textarea>
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Food Photo URL</label>
+            <input
+              class="form-control"
+              type="url"
+              [(ngModel)]="newRecipe.imageUrl"
+              name="imageUrl"
+              placeholder="https://..."
+            />
+          </div>
+          <button class="btn btn-accent w-100" type="submit">Publish Recipe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div>
+          <h2 class="section-title mb-1">Your Recipes</h2>
+          <p class="subtle-text mb-0">Edit, track ratings, and review comments.</p>
+        </div>
+        <span class="pill-tag">{{ myRecipes().length }} recipes</span>
+      </div>
+
+      @if (myRecipes().length === 0) {
+        <div class="panel-card p-4 text-center subtle-text mb-4">
+          You have not shared any recipes yet.
+        </div>
+      }
+
+      @for (recipe of myRecipes(); track recipe.id) {
+        <div class="recipe-card p-4 mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+            <div>
+              <h3 class="mb-1">{{ recipe.title }}</h3>
+              <p class="recipe-meta mb-0">Created {{ recipe.createdAt | date: 'mediumDate' }}</p>
+            </div>
+            <span class="badge rating-badge">{{ averageRating(recipe) }}</span>
+          </div>
+
+          @if (recipe.imageUrl) {
+            <img
+              class="img-fluid rounded-4 mb-3"
+              [src]="recipe.imageUrl"
+              [alt]="recipe.title"
+            />
+          }
+
+          @if (editId === recipe.id) {
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Title</label>
+                <input class="form-control" [(ngModel)]="editDraft.title" name="editTitle" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Short Description</label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="editDraft.description"
+                  name="editDescription"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Ingredients</label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  [(ngModel)]="editDraft.ingredients"
+                  name="editIngredients"
+                ></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Steps</label>
+                <textarea
+                  class="form-control"
+                  rows="4"
+                  [(ngModel)]="editDraft.steps"
+                  name="editSteps"
+                ></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">Food Photo URL</label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="editDraft.imageUrl"
+                  name="editImageUrl"
+                />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-accent" type="button" (click)="saveEdit(recipe.id)">
+                Save Changes
+              </button>
+              <button class="btn btn-outline-dark" type="button" (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
+          } @else {
+            <p class="mb-3">{{ recipe.description }}</p>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <h6 class="fw-semibold mb-2">Ingredients</h6>
+                <pre class="mb-0 small">{{ recipe.ingredients }}</pre>
+              </div>
+              <div class="col-md-6">
+                <h6 class="fw-semibold mb-2">Steps</h6>
+                <pre class="mb-0 small">{{ recipe.steps }}</pre>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="subtle-text small mb-0">{{ recipe.ratings.length }} ratings</p>
+              <button class="btn btn-outline-dark btn-sm" type="button" (click)="startEdit(recipe)">
+                Edit Recipe
+              </button>
+            </div>
+          }
+
+          <div class="mt-4">
+            <h6 class="fw-semibold mb-2">Chef Comments</h6>
+            @if (recipe.comments.length === 0) {
+              <p class="subtle-text small mb-0">No comments yet.</p>
+            }
+            @for (comment of recipe.comments; track comment.id) {
+              <div class="comment-box p-3 mb-2">
+                <div class="d-flex justify-content-between">
+                  <span class="fw-semibold">{{ comment.chefName }}</span>
+                  <span class="subtle-text small">{{ comment.createdAt | date: 'short' }}</span>
+                </div>
+                <p class="mb-0 small">{{ comment.text }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 mt-4">
+        <div>
+          <h2 class="section-title mb-1">Other Chefs' Recipes</h2>
+          <p class="subtle-text mb-0">Rate, comment, and learn from every chef.</p>
+        </div>
+        <span class="pill-tag">{{ otherRecipes().length }} recipes</span>
+      </div>
+
+      <div class="panel-card p-3 mb-4">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-8">
+            <label class="form-label fw-semibold mb-1">Filter by title</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Search for 'pasta', 'curry'..."
+              [(ngModel)]="searchTerm"
+              name="searchTerm"
+            />
+          </div>
+          <div class="col-md-4 text-md-end">
+            <span class="subtle-text small">Showing {{ otherRecipes().length }} recipes</span>
+          </div>
+        </div>
+      </div>
+
+      @if (otherRecipes().length === 0) {
+        <div class="panel-card p-4 text-center subtle-text">No recipes found.</div>
+      }
+
+      @for (recipe of otherRecipes(); track recipe.id) {
+        <div class="recipe-card p-4 mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+            <div>
+              <h3 class="mb-1">{{ recipe.title }}</h3>
+              <p class="recipe-meta mb-0">
+                By {{ recipe.chefName }} • {{ recipe.createdAt | date: 'mediumDate' }}
+              </p>
+            </div>
+            <span class="badge rating-badge">{{ averageRating(recipe) }}</span>
+          </div>
+          @if (recipe.imageUrl) {
+            <img
+              class="img-fluid rounded-4 mb-3"
+              [src]="recipe.imageUrl"
+              [alt]="recipe.title"
+            />
+          }
+          <p class="mb-3">{{ recipe.description }}</p>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <h6 class="fw-semibold mb-2">Ingredients</h6>
+              <pre class="mb-0 small">{{ recipe.ingredients }}</pre>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-semibold mb-2">Steps</h6>
+              <pre class="mb-0 small">{{ recipe.steps }}</pre>
+            </div>
+          </div>
+
+          <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Rate this recipe</label>
+              @if (hasRated(recipe)) {
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge rating-badge">Your rating: {{ myRating(recipe) }}</span>
+                </div>
+              } @else {
+                <div class="d-flex gap-2">
+                  <select
+                    class="form-select"
+                    [(ngModel)]="ratingDrafts[recipe.id]"
+                    name="rating-{{ recipe.id }}"
+                  >
+                    <option [ngValue]="0">Select</option>
+                    <option [ngValue]="1">1</option>
+                    <option [ngValue]="2">2</option>
+                    <option [ngValue]="3">3</option>
+                    <option [ngValue]="4">4</option>
+                    <option [ngValue]="5">5</option>
+                  </select>
+                  <button class="btn btn-outline-dark" type="button" (click)="submitRating(recipe.id)">
+                    Rate
+                  </button>
+                </div>
+              }
+              <p class="subtle-text small mb-0 mt-2">
+                {{ recipe.ratings.length }} total ratings
+              </p>
+            </div>
+            <div class="col-md-8">
+              <label class="form-label fw-semibold">Leave a comment</label>
+              <div class="d-flex gap-2">
+                <input
+                  class="form-control"
+                  [(ngModel)]="commentDrafts[recipe.id]"
+                  name="comment-{{ recipe.id }}"
+                  placeholder="Share tips or feedback"
+                />
+                <button class="btn btn-accent" type="button" (click)="submitComment(recipe.id)">
+                  Comment
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h6 class="fw-semibold mb-2">Chef Comments</h6>
+            @if (recipe.comments.length === 0) {
+              <p class="subtle-text small mb-0">No comments yet. Be the first!</p>
+            }
+            @for (comment of recipe.comments; track comment.id) {
+              <div class="comment-box p-3 mb-2">
+                <div class="d-flex justify-content-between">
+                  <span class="fw-semibold">{{ comment.chefName }}</span>
+                  <span class="subtle-text small">{{ comment.createdAt | date: 'short' }}</span>
+                </div>
+                <p class="mb-0 small">{{ comment.text }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

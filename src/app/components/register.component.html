@@ -1,0 +1,72 @@
+<section class="container fade-in">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="panel-card p-4 p-lg-5">
+        <p class="text-uppercase small mb-2 subtle-text">Chef Onboarding</p>
+        <h1 class="section-title">Create your chef profile.</h1>
+        <p class="subtle-text mb-4">
+          Share recipes, collect ratings, and collaborate with other chefs.
+        </p>
+
+        @if (error) {
+          <div class="alert alert-danger py-2 small" role="alert">
+            {{ error }}
+          </div>
+        }
+
+        <form (ngSubmit)="register()" class="d-flex flex-column gap-3">
+          <div>
+            <label class="form-label fw-semibold">Full Name</label>
+            <input
+              class="form-control"
+              type="text"
+              required
+              [(ngModel)]="form.name"
+              name="name"
+              placeholder="Chef name"
+            />
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Email</label>
+            <input
+              class="form-control"
+              type="email"
+              required
+              [(ngModel)]="form.email"
+              name="email"
+              placeholder="chef@example.com"
+            />
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Password</label>
+            <input
+              class="form-control"
+              type="password"
+              required
+              [(ngModel)]="form.password"
+              name="password"
+              placeholder="Create a password"
+            />
+          </div>
+          <div>
+            <label class="form-label fw-semibold">Confirm Password</label>
+            <input
+              class="form-control"
+              type="password"
+              required
+              [(ngModel)]="form.confirm"
+              name="confirm"
+              placeholder="Repeat password"
+            />
+          </div>
+          <button class="btn btn-accent w-100" type="submit">Register Chef</button>
+          <div class="text-center">
+            <a class="text-decoration-underline subtle-text" routerLink="/login">
+              Already registered? Login
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

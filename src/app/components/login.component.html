@@ -1,0 +1,115 @@
+<section class="container fade-in">
+  <div class="row justify-content-center">
+    <div class="col-xl-10">
+      <div class="hero-card p-4 p-lg-5">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-5">
+            <p class="text-uppercase small mb-2 subtle-text">Recipe Sharing System</p>
+            <h1 class="section-title">Welcome back to the Chef Community.</h1>
+            <p class="subtle-text mb-4">
+              Admins review every chef and recipe. Chefs can publish recipes, rate, and
+              comment across the kitchen.
+            </p>
+            <div class="d-flex flex-column gap-2">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold">Admin</span>
+                <span class="subtle-text">admin / admin123</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold">Demo Chef</span>
+                <span class="subtle-text">chef@demo.com / chef123</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="panel-card p-4">
+              <div class="btn-group w-100 mb-3">
+                <button
+                  class="btn"
+                  [ngClass]="activeTab === 'chef' ? 'btn-accent' : 'btn-outline-dark'"
+                  type="button"
+                  (click)="setTab('chef')"
+                >
+                  Chef Login
+                </button>
+                <button
+                  class="btn"
+                  [ngClass]="activeTab === 'admin' ? 'btn-accent' : 'btn-outline-dark'"
+                  type="button"
+                  (click)="setTab('admin')"
+                >
+                  Admin Login
+                </button>
+              </div>
+
+              @if (error) {
+                <div class="alert alert-danger py-2 small" role="alert">
+                  {{ error }}
+                </div>
+              }
+
+              @if (activeTab === 'chef') {
+                <form (ngSubmit)="loginChef()" class="d-flex flex-column gap-3">
+                  <div>
+                    <label class="form-label fw-semibold">Chef Email</label>
+                    <input
+                      class="form-control"
+                      type="email"
+                      required
+                      [(ngModel)]="chef.email"
+                      name="chefEmail"
+                      placeholder="chef@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label fw-semibold">Password</label>
+                    <input
+                      class="form-control"
+                      type="password"
+                      required
+                      [(ngModel)]="chef.password"
+                      name="chefPassword"
+                      placeholder="Enter password"
+                    />
+                  </div>
+                  <button class="btn btn-accent w-100" type="submit">Login as Chef</button>
+                  <div class="text-center">
+                    <a class="text-decoration-underline subtle-text" routerLink="/register">
+                      New chef? Register here
+                    </a>
+                  </div>
+                </form>
+              } @else {
+                <form (ngSubmit)="loginAdmin()" class="d-flex flex-column gap-3">
+                  <div>
+                    <label class="form-label fw-semibold">Admin Username</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      required
+                      [(ngModel)]="admin.username"
+                      name="adminUsername"
+                      placeholder="admin"
+                    />
+                  </div>
+                  <div>
+                    <label class="form-label fw-semibold">Password</label>
+                    <input
+                      class="form-control"
+                      type="password"
+                      required
+                      [(ngModel)]="admin.password"
+                      name="adminPassword"
+                      placeholder="Enter password"
+                    />
+                  </div>
+                  <button class="btn btn-accent w-100" type="submit">Login as Admin</button>
+                </form>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
